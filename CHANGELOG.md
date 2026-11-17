@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.0 — 2026-11-17
+
+- Removed: the Angie MCP server (the `angie/` folder and its admin script). The plugin's WordPress Abilities expose the same three tools (get URLs, get history, run scan) to any MCP client, including through the MCP Adapter. The removed script also passed the stored Google API key into admin-page JavaScript; that no longer happens.
+
 ## 2.3.12 — 2026-08-10
 
 - Changed: Removed the "Enable write abilities" settings checkbox for the Abilities API. The run-scan ability is now always registered and marked destructive (it consumes external PageSpeed API quota) — confirmation happens via the AI client, not a site-wide toggle.

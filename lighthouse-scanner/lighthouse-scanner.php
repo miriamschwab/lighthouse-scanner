@@ -3,7 +3,7 @@
  * Plugin Name:       Lighthouse Scanner
  * Plugin URI:        https://miriamschwab.me/plugins/lighthouse-scanner
  * Description:       Run PageSpeed Insights scans across your site. Tracks history, alerts on regressions, and copies reports for AI-assisted fixes. Exposes a REST API (lighthouse-scanner/v1) for AI agent integration.
- * Version:           2.3.12
+ * Version:           2.4.0
  * Author:            Miriam Schwab
  * Author URI:        https://miriamschwab.me
  * License:           GPL-2.0-or-later
@@ -27,7 +27,7 @@ add_action(
 	}
 );
 
-define( 'LHSC_VERSION', '2.3.12' );
+define( 'LHSC_VERSION', '2.4.0' );
 define( 'LHSC_FILE', __FILE__ );
 define( 'LHSC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LHSC_URL', plugin_dir_url( __FILE__ ) );
@@ -1097,53 +1097,3 @@ add_action(
 	}
 );
 
-// ANGIE MCP SERVER.
-// Enqueues the compiled Angie MCP server JS on.
-// admin pages where Angie is active.
-// The JS at angie/dist/mcp-server.js registers.
-// three tools with Angie:.
-// - get-lighthouse-urls.
-// - get-lighthouse-history.
-// - run-lighthouse-scan.
-// BUILD INSTRUCTIONS (one-time, needs Node.js):.
-// cd wp-content/plugins/lighthouse-scanner/angie.
-// npm install.
-// npm run build.
-// This produces angie/dist/mcp-server.js which.
-// WordPress loads automatically on admin pages.
-add_action(
-	'admin_enqueue_scripts',
-	function () {
-		$dist = plugin_dir_path( __FILE__ ) . 'angie/dist/mcp-server.js';
-
-		// Only load if built file exists.
-		if ( ! file_exists( $dist ) ) {
-			return;
-		}
-
-		// Only load if Elementor is active (Angie lives inside Elementor).
-		if ( ! defined( 'ELEMENTOR_VERSION' ) && ! class_exists( 'Elementor\\Plugin' ) ) {
-			return;
-		}
-
-		wp_enqueue_script(
-			'lhsc-angie-mcp',
-			plugin_dir_url( __FILE__ ) . 'angie/dist/mcp-server.js',
-			array(),
-			LHSC_VERSION,
-			true
-		);
-
-		// Pass REST URL, nonce, API key, and version to the JS.
-		wp_localize_script(
-			'lhsc-angie-mcp',
-			'lhscAngie',
-			array(
-				'restUrl' => esc_url_raw( rest_url() ),
-				'nonce'   => wp_create_nonce( 'wp_rest' ),
-				'apiKey'  => lhsc_get_api_key(),
-				'version' => LHSC_VERSION,
-			)
-		);
-	}
-);

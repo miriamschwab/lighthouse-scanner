@@ -20,7 +20,7 @@ Performance monitoring shouldn't require leaving WordPress. This plugin brings P
 - **Copy report for Claude** — one-click clipboard copy of scan results formatted for AI analysis
 - **Export CSV** — download scan results as a spreadsheet
 - **REST API** — five endpoints under `lighthouse-scanner/v1` for external tool access
-- **Angie MCP integration** — Elementor's Angie AI assistant can query scores and trigger scans conversationally
+- **WordPress Abilities** — AI agents can read scores and trigger scans through the Abilities API and MCP Adapter
 
 ## How it works
 
@@ -49,22 +49,16 @@ All endpoints require WordPress admin authentication (Application Passwords).
 | POST | `/wp-json/lighthouse-scanner/v1/scan` | Trigger or save a scan |
 | DELETE | `/wp-json/lighthouse-scanner/v1/history` | Clear all history |
 
-## Angie MCP Server
-
-The plugin includes an MCP server for Elementor's Angie AI assistant. When Elementor is active, Angie can answer questions like "What are my Lighthouse scores?" or "Run a scan and tell me if anything changed." The MCP server registers three tools (`get-lighthouse-urls`, `get-lighthouse-history`, `run-lighthouse-scan`) that Angie discovers automatically.
-
-Build the MCP server (one-time): `cd angie && npm install && npm run build`
-
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 ## Requirements
 
-- WordPress 5.0+
+- WordPress 5.9+
 - PHP 7.4+
 - A Google PageSpeed Insights API key (optional but recommended)
-- Elementor + Angie (optional, for MCP integration)
+- WordPress 6.9+ and the MCP Adapter plugin (optional, for AI agent access through Abilities)
 
 ## License
 
@@ -86,7 +80,7 @@ This plugin exposes abilities for the [WordPress Abilities API](https://develope
 | `lighthouse-scanner/get-settings` | Always on | Returns the score threshold, setup status, and whether a Google API key is saved |
 | `lighthouse-scanner/get-urls` | Always on | Returns the configured scan URL list with display labels |
 | `lighthouse-scanner/get-history` | Always on | Returns up to 20 scan entries, newest first, including scores and failing audits with resource-level details |
-| `lighthouse-scanner/run-scan` | Write (opt-in) | Kicks off a full PageSpeed Insights scan of all configured URLs in the background. Returns immediately — call `get-history` ~60 seconds later to retrieve results |
+| `lighthouse-scanner/run-scan` | Write (destructive) | Kicks off a full PageSpeed Insights scan of all configured URLs in the background. Returns immediately — call `get-history` ~60 seconds later to retrieve results |
 
 ### How `run-scan` works
 
@@ -94,6 +88,6 @@ This plugin exposes abilities for the [WordPress Abilities API](https://develope
 
 Uses the stored Google API key if one is configured; falls back to unauthenticated requests otherwise.
 
-### Enabling write abilities
+### Write abilities
 
-Write abilities are disabled by default. To enable them, go to **Tools > Lighthouse Scanner**, check **Enable write abilities** in the Settings section, and save.
+`run-scan` is always registered and marked destructive, because it uses PageSpeed API quota. The AI client is expected to ask for confirmation before calling it.

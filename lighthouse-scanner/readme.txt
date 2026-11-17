@@ -2,9 +2,9 @@
 Contributors: miriamschwab
 Tags: lighthouse, pagespeed, performance, accessibility, seo
 Requires at least: 5.9
-Tested up to: 6.8
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.3.12
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,7 @@ Lighthouse Scanner lets you run Google PageSpeed Insights scans on any page of y
 * Copy report for Claude — exports a formatted, AI-ready summary of scores and issues
 * Export CSV — download scan results for offline analysis
 * REST API (`lighthouse-scanner/v1`) — expose scan data and trigger scans from external tools or AI agents
+* WordPress Abilities (WordPress 6.9+) — AI agents can read settings, URLs and history and start scans through the MCP Adapter
 * Google API key support — without a key, scans are rate-limited to ~1/minute; with a key, 25,000/day
 
 **Third-party service**
@@ -58,11 +59,16 @@ Scan history (up to 20 entries) is stored in a WordPress option (`lhsc_history`)
 
 Yes. The plugin exposes a REST API at `lighthouse-scanner/v1` that requires the `manage_options` capability. Endpoints: `GET /urls`, `GET /history`, `GET /history/{id}`, `POST /scan`, `DELETE /history`. Authentication uses WordPress application passwords.
 
+On WordPress 6.9 and later, the plugin also registers four abilities for the Abilities API: `lighthouse-scanner/get-settings`, `get-urls`, `get-history` and `run-scan`. With the MCP Adapter plugin installed, any MCP client can use them. `run-scan` is marked destructive because it uses PageSpeed API quota.
+
 = What is the "Alert below" threshold? =
 
 Scores at or below the threshold value are highlighted red. The default is 85. Set it to 0 to disable alerts, or 100 to flag everything below perfect.
 
 == Changelog ==
+
+= 2.4.0 - 2026-11-17 =
+* Removed: the Angie MCP server (the `angie/` folder and its admin script). The plugin's WordPress Abilities expose the same three tools (get URLs, get history, run scan) to any MCP client, including through the MCP Adapter. The removed script also passed the stored Google API key into admin-page JavaScript; that no longer happens.
 
 = 2.3.12 - 2026-08-10 =
 * Changed: Removed the "Enable write abilities" settings checkbox for the Abilities API. The run-scan ability is now always registered and marked destructive (it consumes external PageSpeed API quota) — confirmation happens via the AI client, not a site-wide toggle.
