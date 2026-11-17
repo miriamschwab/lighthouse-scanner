@@ -272,8 +272,9 @@ function lhsc_register_abilities() {
 			),
 			'permission_callback' => fn() => current_user_can( 'manage_options' ),
 			'execute_callback'    => function () {
-				$history = lhsc_get_history();
-				return array_reverse( array_values( $history ) );
+				// Stored newest-first (every writer uses array_unshift), which is the
+				// order the description promises. Don't reverse it.
+				return array_values( lhsc_get_history() );
 			},
 			'meta'                => array(
 				'mcp'         => array( 'public' => true ),

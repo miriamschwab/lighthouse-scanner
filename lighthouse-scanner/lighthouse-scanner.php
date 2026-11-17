@@ -3,7 +3,7 @@
  * Plugin Name:       Lighthouse Scanner
  * Plugin URI:        https://miriamschwab.me/plugins/lighthouse-scanner
  * Description:       Run PageSpeed Insights scans across your site. Tracks history, alerts on regressions, and copies reports for AI-assisted fixes. Exposes a REST API (lighthouse-scanner/v1) for AI agent integration.
- * Version:           2.4.0
+ * Version:           2.4.1
  * Author:            Miriam Schwab
  * Author URI:        https://miriamschwab.me
  * License:           GPL-2.0-or-later
@@ -27,7 +27,7 @@ add_action(
 	}
 );
 
-define( 'LHSC_VERSION', '2.4.0' );
+define( 'LHSC_VERSION', '2.4.1' );
 define( 'LHSC_FILE', __FILE__ );
 define( 'LHSC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LHSC_URL', plugin_dir_url( __FILE__ ) );

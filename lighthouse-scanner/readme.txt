@@ -4,7 +4,7 @@ Tags: lighthouse, pagespeed, performance, accessibility, seo
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.4.0
+Stable tag: 2.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ On WordPress 6.9 and later, the plugin also registers four abilities for the Abi
 Scores at or below the threshold value are highlighted red. The default is 85. Set it to 0 to disable alerts, or 100 to flag everything below perfect.
 
 == Changelog ==
+
+= 2.4.1 - 2026-11-17 =
+* Fixed: the `get-history` ability now returns scans newest first, as its description says. Since 2.3.7 it returned them oldest first, so an agent reading the first entry got the oldest scan instead of the latest.
 
 = 2.4.0 - 2026-11-17 =
 * Removed: the Angie MCP server (the `angie/` folder and its admin script). The plugin's WordPress Abilities expose the same three tools (get URLs, get history, run scan) to any MCP client, including through the MCP Adapter. The removed script also passed the stored Google API key into admin-page JavaScript; that no longer happens.

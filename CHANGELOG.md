@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.1 — 2026-11-17
+
+- Fixed: the `get-history` ability now returns scans newest first, as its description says. Since 2.3.7 it returned them oldest first, so an agent reading the first entry got the oldest scan instead of the latest.
+
 ## 2.4.0 — 2026-11-17
 
 - Removed: the Angie MCP server (the `angie/` folder and its admin script). The plugin's WordPress Abilities expose the same three tools (get URLs, get history, run scan) to any MCP client, including through the MCP Adapter. The removed script also passed the stored Google API key into admin-page JavaScript; that no longer happens.
